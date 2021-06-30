@@ -28,6 +28,23 @@ export default class MartianNews {
       request.send();
     });
   }
+
+  static getMarsPhotos() {
+    return new Promise(function(resolve, reject) {
+      let request = new XMLHttpRequest();
+      const url = `https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&api_key=${process.env.API_KEY}`;
+      request.onload = function() {
+        if (this.status === 200) {
+          resolve(request.response);
+        } else {
+          reject(request.response);
+        }
+      };
+      request.open("GET", url, true);
+      request.send();
+    });
+  } 
+
   static getMarsWeather() {
     return fetch(`http://cab.inta-csic.es/rems/wp-content/plugins/marsweather-widget/api.php`)
       .then(function(response) {
@@ -40,4 +57,6 @@ export default class MartianNews {
         return Error(error);
       });
   }
+    
+  
 }
